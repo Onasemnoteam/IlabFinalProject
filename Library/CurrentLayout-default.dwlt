@@ -511,7 +511,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 7.9041977
     speed: 2
-    m_Value: 7.9041977
+    m_Value: 2.781929
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -612,9 +612,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 163a0000
-    m_LastClickedID: 14870
-    m_ExpandedIDs: 00000000163a0000183a00001a3a000000ca9a3b
+    m_SelectedIDs: 203a0000
+    m_LastClickedID: 14880
+    m_ExpandedIDs: 00000000143a0000163a0000183a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
