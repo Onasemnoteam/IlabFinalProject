@@ -13,10 +13,12 @@ namespace CSharpSynth.Banks.Sfz
         private SfzRegion[] regions;   //the complete list of regions
         private byte[] noteMap;        //maps the midi note to the correct region (wont work for complex sfz)
         private bool allSamplesHaveDualChannels;
+        private int counter;
         //--Public Methods
         public SfzInstrument(string Instrumentfile, int sampleRate, InstrumentBank bank)
             : base()
         {
+            
             this.SampleRate = sampleRate;
             //UnitySynth
             //ReadFromStream(File.Open(Instrumentfile, FileMode.Open), Path.GetDirectoryName(Instrumentfile) + "\\", bank);
