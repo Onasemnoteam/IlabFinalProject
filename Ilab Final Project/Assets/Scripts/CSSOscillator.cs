@@ -10,7 +10,6 @@ public class CSSOscillator : MonoBehaviour
     //Public
     public string bankFilePath = "GM Bank/gm";
     public int bufferSize = 1024;
-    [Range(0,127)]
     public int midiNote = 60;
     public int midiNoteVolume = 100;
     [Range(0, 127)] //From Piano to Gunshot
@@ -39,11 +38,11 @@ public class CSSOscillator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) {
+        if (Input.GetKeyDown(KeyCode.Space)) {
             //Debug.Log("Key P Pressed");
             midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, midiInstrument);
         }
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             //Debug.Log("Key P Released");
             midiStreamSynthesizer.NoteOff(0, midiNote);

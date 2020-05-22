@@ -1,0 +1,3 @@
+[BankFile]
+GrandPiano/sfz/0/0/i/
+BowedGlass/sfz/1/1/i/

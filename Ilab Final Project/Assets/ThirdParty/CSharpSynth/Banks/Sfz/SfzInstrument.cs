@@ -332,7 +332,8 @@ namespace CSharpSynth.Banks.Sfz
                                                 r.LoopEnd = int.Parse(Rvalue[1]);
                                                 break;
                                             case "tune":
-                                                r.Tune = int.Parse(Rvalue[1]) / 100.0f;
+                                                //Debug.Log(Rvalue[1]);
+                                                r.Tune = float.Parse(Rvalue[1]) / 100.0f;
                                                 break;
                                             case "pitch_keycenter":
                                                 r.Root = int.Parse(Rvalue[1]);
