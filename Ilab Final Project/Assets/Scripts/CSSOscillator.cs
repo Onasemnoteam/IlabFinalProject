@@ -39,12 +39,12 @@ public class CSSOscillator : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space)) {
-            //Debug.Log("Key P Pressed");
+            Debug.Log("Space Pressed");
             midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, midiInstrument);
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            //Debug.Log("Key P Released");
+            Debug.Log("Space Released");
             midiStreamSynthesizer.NoteOff(0, midiNote);
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))

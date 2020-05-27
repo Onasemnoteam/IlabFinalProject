@@ -10,10 +10,8 @@
 // Re-tuned using the Entropy Tuner
 //         piano-tuner.org
 
-<control>
-default_path=samples\grand piano\
-
 <global>
+loop_mode=loop_continuous
 ampeg_release=1
 xf_velcurve=gain
 
@@ -346,7 +344,7 @@ tune=-4.9440
 
 <region>
 sample=piano-f-c5.wav
-key=63
+key=63   
 tune=-4.6999
 
 <region>
@@ -402,9 +400,11 @@ pitch_keycenter=60
 tune=-2.7251
 
 <region>
-sample=piano-f-a5.wav
-key=60
+sample=ELP1_56.wav
+lokey=60
+hikey=60
 tune=0.3335
+
 
 <region>
 sample=piano-f-a5.wav
