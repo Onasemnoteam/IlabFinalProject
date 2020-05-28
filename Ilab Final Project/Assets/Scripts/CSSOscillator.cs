@@ -8,7 +8,7 @@ using CSharpSynth.Sequencer;
 public class CSSOscillator : MonoBehaviour
 {
     //Public
-    public string bankFilePath = "GM Bank/gm";
+    public string bankFilePath = "Good Bank/bank";
     public int bufferSize = 1024;
     public int midiNote = 60;
     public int midiNoteVolume = 100;
@@ -65,6 +65,15 @@ public class CSSOscillator : MonoBehaviour
         }
 
 
+    }
+    public void PlayNote(int note, int volume) {
+        midiNote = note;
+        midiNoteVolume = volume;
+        midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, midiInstrument);
+    }
+
+    public void StopNote(int note) {
+        midiStreamSynthesizer.NoteOff(0, note);
     }
 
     private void OnAudioFilterRead(float[] data, int channels)
