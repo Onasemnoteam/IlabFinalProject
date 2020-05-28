@@ -8,11 +8,11 @@
 <group>
 sample=TUBLR84.wav
 loop_mode=loop_continuous
-loop_start=294
-loop_end=1165
+loop_start=289
+loop_end=1160
 tune=-5
 pitch_keycenter=84
-ampeg_release=0.250
+ampeg_release=1
 
 <region>
 hikey=89
