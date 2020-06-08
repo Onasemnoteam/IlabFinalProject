@@ -36,15 +36,27 @@ public class RecordButton : MonoBehaviour
         // canPress prevents you from recording while it's playing
         if(canPress)
         {
-            recording = !recording;
 
-            if (recording == false && recTimes.Count > 0)
+            if (!recording)
             {
-                // call the playback function
-                StartCoroutine(PlayBack());
+                // reset recording arrays
+                recTimes = new List<float>();
+                buttons = new List<Button>();
             }
+
+            recording = !recording;
+            
         }
 
+    }
+
+    public void Play() 
+    {
+        if (recording == false && recTimes.Count > 0)
+        {
+            // call the playback function
+            StartCoroutine(PlayBack());
+        }
     }
 
     // this is a function that allows you to wait for specified time periods before executing code
@@ -60,10 +72,6 @@ public class RecordButton : MonoBehaviour
             yield return new WaitForSeconds(recTimes[i] - recTimes[i-1]);
             buttons[i].onClick.Invoke();
         }
-
-        // at the end of playback, reset recording arrays and allow recording again
-        recTimes = new List<float>();
-        buttons = new List<Button>();
 
         canPress = true;
 
