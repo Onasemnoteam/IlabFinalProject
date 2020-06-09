@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 840240218}
   - component: {fileID: 840240217}
   - component: {fileID: 840240216}
-  - component: {fileID: 840240219}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -236,9 +235,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bankFilePath: GM Bank/gm
+  bufferSize: 1024
+  midiNote: 60
+  midiNoteVolume: 100
   midiInstrument: 0
   gain: 1
-  Recorder: {fileID: 0}
 --- !u!82 &840240217
 AudioSource:
   m_ObjectHideFlags: 0
@@ -349,17 +350,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &840240219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 840240215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f060ae67db15cad4c89b950712dbfce0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Oscillator: {fileID: 840240216}
-  volume: 100

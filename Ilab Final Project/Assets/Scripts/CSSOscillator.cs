@@ -9,14 +9,14 @@ public class CSSOscillator : MonoBehaviour
 {
     //Public
     public string bankFilePath = "Good Bank/bank";
+    public int bufferSize = 1024;
+    public int midiNote = 60;
+    public int midiNoteVolume = 100;
+    [Range(0, 127)] //From Piano to Gunshot
     public int midiInstrument = 0;
     public float gain = 1f;
-    public RecordSynthButton Recorder;
 
     //Private
-    private int bufferSize = 1024;
-    private int midiNote = 60;
-    private int midiNoteVolume = 100;
     private float[] sampleBuffer;
     private MidiSequencer midiSequencer;
     private StreamSynthesizer midiStreamSynthesizer;
@@ -35,16 +35,45 @@ public class CSSOscillator : MonoBehaviour
         //midiSequencer.NoteOffEvent += new MidiSequencer.NoteOffEventHandler (MidiNoteOffHandler);			
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            Debug.Log("Space Pressed");
+            midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, midiInstrument);
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Debug.Log("Space Released");
+            midiStreamSynthesizer.NoteOff(0, midiNote);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            midiNote++;
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            midiNote--;
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            midiInstrument++;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            midiInstrument--;
+        }
+
+
+    }
     public void PlayNote(int note, int volume) {
         midiNote = note;
         midiNoteVolume = volume;
         midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, midiInstrument);
-        Recorder.recNote( note, volume, 1);
     }
 
     public void StopNote(int note) {
         midiStreamSynthesizer.NoteOff(0, note);
-        Recorder.recNote( note, 0, 0);
     }
 
     private void OnAudioFilterRead(float[] data, int channels)
