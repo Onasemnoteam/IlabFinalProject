@@ -96,21 +96,19 @@ public class RecordButton : MonoBehaviour
     // attached to record button in GUI
     public void Record()
     {
+
+        recording = !recording;
+
         // canPress prevents you from recording while it's playing
         if (canPress)
         {
-            recording = !recording;
-
-            // if we just recorded and now we want to play it back ...
-            if (recording == false && recTimes.Count > 0)
-            {
-                // call the playback function
-                StartCoroutine(PlayBack());
-            }
 
             // if we just started recording ...
-            else if (recording == true)
+            if (recording == true)
             {
+                recTimes = new List<float>();
+                buttons = new List<Button>();
+
                 recStartTime = Time.time;
 
                 if(firstLoop == false)
@@ -119,12 +117,21 @@ public class RecordButton : MonoBehaviour
                     flsStored = firstLoopStart;
                 }
             }
+            
         }
 
     }
 
-
     // function to play back what was recorded
+    public void Play() 
+    {
+        if (recording == false && recTimes.Count > 0)
+        {
+            // call the playback function
+            StartCoroutine(PlayBack());
+        }
+    }
+
     // this is a function that allows you to wait for specified time periods before executing code
     private IEnumerator PlayBack()
     {
@@ -140,10 +147,6 @@ public class RecordButton : MonoBehaviour
             yield return new WaitForSeconds(recTimes[i] - recTimes[i - 1]);
             buttons[i].onClick.Invoke();
         }
-
-        // at the end of playback, reset recording arrays and allow recording again
-        recTimes = new List<float>();
-        buttons = new List<Button>();
 
         canPress = true;
 
