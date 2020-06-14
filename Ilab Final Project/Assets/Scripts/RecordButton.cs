@@ -29,10 +29,12 @@ public class RecordButton : MonoBehaviour
     // all time durations are in seconds
     public float endDelay = 0.5f; // delay after one loop ends (sketchy)
     public float loopDuration = 60f; // max duration of first loop
+    float firstLoopDuration;
 
-    // keeping track of when recordings start
+    // keeping track of when recordings start and end
     float recStartTime;
     float firstLoopStart;
+    float firstLoopEnd;
     float flsStored;
 
     // storing loops in an array and variables that clear them
@@ -102,6 +104,15 @@ public class RecordButton : MonoBehaviour
         // canPress prevents you from recording while it's playing
         if (canPress)
         {
+
+            if(recording == false)
+            {
+                if(firstLoop)
+                {
+                    firstLoopEnd = Time.time;
+                    firstLoopDuration = firstLoopEnd - recStartTime;
+                }
+            }
 
             // if we just started recording ...
             if (recording == true)
@@ -257,6 +268,7 @@ public class RecordButton : MonoBehaviour
             // for the first loop, addLoop is set to true to allow new loops to be added at this point
             if (firstTrack)
             {
+                yield return new WaitForSeconds(firstLoopEnd - t[t.Count - 1]);
                 addLoop = true;
                 yield return new WaitForSeconds(endDelay);
             }
