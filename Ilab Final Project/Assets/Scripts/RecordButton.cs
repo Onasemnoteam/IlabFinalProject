@@ -61,7 +61,7 @@ public class RecordButton : MonoBehaviour
 
         firstLoop = true;
 
-        recButton = GameObject.Find("record and play").GetComponent<Button>();
+        recButton = GameObject.Find("record").GetComponent<Button>();
         recColors = recButton.colors;
 
         loops = new List<Coroutine>();
