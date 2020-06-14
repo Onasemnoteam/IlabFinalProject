@@ -11,7 +11,7 @@ public class CSSOscillator : MonoBehaviour
     public string bankFilePath = "Good Bank/bank";
     public int midiInstrument = 0;
     public float gain = 1f;
-    public RecordSynthButton Recorder;
+    public RecordButton Recorder;
 
     //Private
     private int bufferSize = 1024;
