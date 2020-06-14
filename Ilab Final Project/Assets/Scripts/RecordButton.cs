@@ -244,11 +244,13 @@ public class RecordButton : MonoBehaviour
             // but every other loop after that will need to sync up with the first loop
             if (firstTrack == false)
             {
+                Debug.Log(endDelay + t[0] - fls);
+                Debug.Log(t[t.Count-1] - t[0]);
+                Debug.Log((endDelay + t[0] - fls) % (t[t.Count-1] - t[0]));//doesn't work properly, this should modulo by the length of the original loop not the added loop.
+                float waitTime = (endDelay + t[0] - fls) % (t[t.Count-1]-t[0]);
+
                 // loops will be added once the first loop has ended. before the loop is played:
-                yield return new WaitForSeconds(endDelay);  // it waits for the end delay to pass
-                yield return new WaitForSeconds(rst - fls); // it waits for the amount of time you waited to press record (from the start of the loop)
-                     // ^ not good because loops will only fit nicely into the original loop if you press record after the loop has started again from the beginning
-                yield return new WaitForSeconds(t[0] - rst);  // it waits for the amount of time it took to click a note from when you pressed record
+                yield return new WaitForSeconds(waitTime);  // it waits for the end delay to pass
             }
 
             // call the button sounds, but don't let the sounds that are being looped get recorded
