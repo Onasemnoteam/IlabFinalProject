@@ -21,7 +21,6 @@ public class RecordButton : MonoBehaviour
     bool firstLoop;
     bool addLoop;
 
-
     // these arrays store buttons and times they were clicked during recording
     List<float> recTimes;
     List<int[]> buttons;
@@ -233,7 +232,9 @@ public class RecordButton : MonoBehaviour
     // this function loops tracks given the recordings you want it to play (currently it just loops them infinitely)
     private IEnumerator Loop(List<float> t, List<int[]> b, float fls, float rst)
     {
-
+        // tell progress bar that looping has started
+        GameObject.Find("loop progress").GetComponent<ProgressBar>().StartLoop(firstLoopDuration, Time.time);
+        
         // determine which loop was the very first one created
         // when new loops are added, they must sync up with the time they were played relative to the original loop
         bool firstTrack = false;

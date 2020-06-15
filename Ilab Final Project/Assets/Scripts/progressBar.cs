@@ -2,21 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class progressBar : MonoBehaviour
+public class ProgressBar : MonoBehaviour
 {
+    // Start is called before the first frame update
     RectTransform progress;
-    int x;
+    float barLength = 500;
+    bool looping;
+    float loopDuration;
+    float startTime;
+
     // Start is called before the first frame update
     void Start()
     {
         progress = gameObject.GetComponent<RectTransform>();
-        x = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        x++;
-        progress.localPosition = new Vector3(x,0,0);
+        if (looping)
+        {
+            float timeInLoop = (Time.time - startTime) % loopDuration;
+            float x = timeInLoop / loopDuration * barLength;
+            progress.localPosition = new Vector3(x, 0, 0);
+        }
+    }
+
+    public void StartLoop(float ld, float st)
+    {
+        loopDuration = ld;
+        startTime = st;
+        looping = true;
     }
 }
