@@ -111,7 +111,11 @@ public class RecordButton : MonoBehaviour
             {
                 if(firstLoop)
                 {
+                    for (int i = 0; i < 128; i++) oscillator.StopNote(i);
                     firstLoopEnd = Time.time;
+                    recTimes.Add(firstLoopEnd);
+                    int[] temp = { 0, 0, 0 };
+                    buttons.Add(temp);
                     firstLoopDuration = firstLoopEnd - recStartTime;
                 }
             }
@@ -124,8 +128,13 @@ public class RecordButton : MonoBehaviour
 
                 recStartTime = Time.time;
 
-                if(firstLoop == false)
+                if (firstLoop)
                 {
+                    recTimes.Add(Time.time);
+                    int[] temp = { 0, 0, 0 };
+                    buttons.Add(temp);
+                }
+                else{
                     // flsStored stores the first loop start time so that it syncs up properly when "record" is pressed (used to sync loops properly)
                     flsStored = firstLoopStart;
                 }
@@ -197,12 +206,23 @@ public class RecordButton : MonoBehaviour
     // adds a recorded track to the loop (attached to loop button in GUI)
     public void AddLoop()
     {
+        
         recording = false;
 
         timeOut = false;
 
+
         if (recTimes.Count > 0)
         {
+            if (firstLoop)
+            {
+                for (int i = 0; i < 128; i++) oscillator.StopNote(i);
+                firstLoopEnd = Time.time;
+                recTimes.Add(firstLoopEnd);
+                int[] temp = { 0, 0, 0 };
+                buttons.Add(temp);
+                firstLoopDuration = firstLoopEnd - recStartTime;
+            }
             // making temporary copies of the arrays to call the loop
 
             List<float> recTimesTemp = new List<float>();
@@ -248,26 +268,26 @@ public class RecordButton : MonoBehaviour
         {
 
             // wait until the original loop has gone back to the start before starting the loop
-            while (addLoop == false && firstTrack == false)
-            {
-                yield return new WaitForSeconds(0.01f);
-            }
+            //while (addLoop == false && firstTrack == false)
+            //{
+            //    yield return new WaitForSeconds(0.01f);
+            //}
 
             // if it's the first loop, update its start time
             if (firstTrack)
             {
                 firstLoopStart = Time.time;
-                addLoop = false;
+                //addLoop = false;
             }
 
             // the first loop won't need delay before it start looping,
             // but every other loop after that will need to sync up with the first loop
             if (firstTrack == false)
             {
-                Debug.Log(endDelay + t[0] - fls);
-                Debug.Log(t[t.Count-1] - t[0]);
-                Debug.Log((endDelay + t[0] - fls) % (t[t.Count-1] - t[0]));//doesn't work properly, this should modulo by the length of the original loop not the added loop.
-                float waitTime = (endDelay + t[0] - fls) % (t[t.Count-1]-t[0]);
+                //Debug.Log(t[0] - fls);
+                //Debug.Log(t[t.Count-1] - t[0]);
+                //Debug.Log((t[0] - fls) % firstLoopDuration);
+                float waitTime = (t[0] - fls) % firstLoopDuration;
 
                 // loops will be added once the first loop has ended. before the loop is played:
                 yield return new WaitForSeconds(waitTime);  // it waits for the end delay to pass
@@ -296,9 +316,8 @@ public class RecordButton : MonoBehaviour
             // for the first loop, addLoop is set to true to allow new loops to be added at this point
             if (firstTrack)
             {
-                yield return new WaitForSeconds(firstLoopEnd - t[t.Count - 1]);
-                addLoop = true;
-                yield return new WaitForSeconds(endDelay);
+                //addLoop = true;
+                //yield return new WaitForSeconds();
             }
 
         }
@@ -316,7 +335,8 @@ public class RecordButton : MonoBehaviour
             {
                 StopCoroutine(loops[i]);
             }
-
+            //Stop all synth notes
+            for (int i = 0; i < 128; i++) oscillator.StopNote(i);
             // reset arrays
             recTimes = new List<float>();
             buttons = new List<int[]>();
