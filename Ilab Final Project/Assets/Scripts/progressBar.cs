@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,8 +23,8 @@ public class ProgressBar : MonoBehaviour
     {
         if (looping)
         {
-            float timeInLoop = (Time.time - startTime) % loopDuration;
-            float x = timeInLoop / loopDuration * barLength;
+            float timeInLoop = (Time.time - startTime);
+            float x = Math.Min(timeInLoop / loopDuration * barLength,barLength);
             progress.localPosition = new Vector3(x, 0, 0);
         }
     }

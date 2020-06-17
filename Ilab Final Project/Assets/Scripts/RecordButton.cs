@@ -111,12 +111,12 @@ public class RecordButton : MonoBehaviour
             {
                 if(firstLoop)
                 {
-                    for (int i = 0; i < 128; i++) oscillator.StopNote(i);
                     firstLoopEnd = Time.time;
-                    recTimes.Add(firstLoopEnd);
+                    
+                    for (int i = 0; i < 128; i++) oscillator.StopNote(i);
+                    recTimes.Add(Time.time);
                     int[] temp = { 0, 0, 0 };
                     buttons.Add(temp);
-                    firstLoopDuration = firstLoopEnd - recStartTime;
                 }
             }
 
@@ -130,7 +130,7 @@ public class RecordButton : MonoBehaviour
 
                 if (firstLoop)
                 {
-                    recTimes.Add(Time.time);
+                    recTimes.Add(recStartTime);
                     int[] temp = { 0, 0, 0 };
                     buttons.Add(temp);
                 }
@@ -216,12 +216,17 @@ public class RecordButton : MonoBehaviour
         {
             if (firstLoop)
             {
-                for (int i = 0; i < 128; i++) oscillator.StopNote(i);
-                firstLoopEnd = Time.time;
-                recTimes.Add(firstLoopEnd);
-                int[] temp = { 0, 0, 0 };
-                buttons.Add(temp);
+                if (firstLoopEnd == 0)
+                {
+                    firstLoopEnd = Time.time;
+                    for (int i = 0; i < 128; i++) oscillator.StopNote(i);
+
+                    recTimes.Add(firstLoopEnd);
+                    int[] temp = { 0, 0, 0 };
+                    buttons.Add(temp);
+                }
                 firstLoopDuration = firstLoopEnd - recStartTime;
+                
             }
             // making temporary copies of the arrays to call the loop
 
@@ -252,8 +257,7 @@ public class RecordButton : MonoBehaviour
     // this function loops tracks given the recordings you want it to play (currently it just loops them infinitely)
     private IEnumerator Loop(List<float> t, List<int[]> b, float fls, float rst)
     {
-        // tell progress bar that looping has started
-        GameObject.Find("loop progress").GetComponent<ProgressBar>().StartLoop(firstLoopDuration, Time.time);
+        
         
         // determine which loop was the very first one created
         // when new loops are added, they must sync up with the time they were played relative to the original loop
@@ -266,7 +270,8 @@ public class RecordButton : MonoBehaviour
         // while loop will now keep the track looping
         while (true)
         {
-
+            // tell progress bar that looping has started
+            GameObject.Find("loop progress").GetComponent<ProgressBar>().StartLoop(firstLoopDuration, Time.time);
             // wait until the original loop has gone back to the start before starting the loop
             //while (addLoop == false && firstTrack == false)
             //{
@@ -292,33 +297,29 @@ public class RecordButton : MonoBehaviour
                 // loops will be added once the first loop has ended. before the loop is played:
                 yield return new WaitForSeconds(waitTime);  // it waits for the end delay to pass
             }
-
-            // call the button sounds, but don't let the sounds that are being looped get recorded
-            canInvoke = false;
-            int[] currNote = b[0];
-            if (currNote[2] == 1) oscillator.PlayNote(currNote[0], currNote[1]);
-            else if (currNote[2] == 0) oscillator.StopNote(currNote[0]);
-            else if (currNote[2] == 2) buttonIndex[currNote[0]].onClick.Invoke();
-            canInvoke = true;
-
+            float startTime = Time.time;
             // play the sounds in the loop (same as Playback function)
-            for (int i = 1; i < t.Count; i++)
+            for (int i = 0; i < t.Count; i++)
             {
-                yield return new WaitForSeconds(t[i] - t[i - 1]);
+                if (i != 0) yield return new WaitForSeconds(t[i] - t[i - 1]);
                 canInvoke = false;
-                currNote = b[i];
+                int[] currNote = b[i];
                 if (currNote[2] == 1) oscillator.PlayNote(currNote[0], currNote[1]);
                 else if (currNote[2] == 0) oscillator.StopNote(currNote[0]);
                 else if (currNote[2] == 2) buttonIndex[currNote[0]].onClick.Invoke();
                 canInvoke = true;
             }
+            //Debug.Log("Actual Loop Length: "+(Time.time - startTime));
+            //Debug.Log(t[t.Count - 1] - t[0]);
+            //Debug.Log("firstLoopDuration: "+firstLoopDuration);
+            firstLoopDuration = Time.time - startTime;
 
             // for the first loop, addLoop is set to true to allow new loops to be added at this point
-            if (firstTrack)
-            {
+            //if (firstTrack)
+            //{
                 //addLoop = true;
                 //yield return new WaitForSeconds();
-            }
+            //}
 
         }
     }
