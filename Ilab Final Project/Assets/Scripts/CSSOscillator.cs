@@ -8,7 +8,7 @@ using CSharpSynth.Sequencer;
 public class CSSOscillator : MonoBehaviour
 {
     //Public
-    public string bankFilePath = "Good Bank/bank";
+    public string bankFilePath = "GM Bank/gm";
     public int midiInstrument = 0;
     public float gain = 1f;
     public RecordButton Recorder;
