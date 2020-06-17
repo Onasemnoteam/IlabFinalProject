@@ -31,6 +31,7 @@ public class RecordButton : MonoBehaviour
     public float loopDuration = 60f; // max duration of first loop
     public CSSOscillator oscillator;
     float firstLoopDuration;
+    float truefirstLoopDuration;
 
     // keeping track of when recordings start and end
     float recStartTime;
@@ -226,7 +227,7 @@ public class RecordButton : MonoBehaviour
                     buttons.Add(temp);
                 }
                 firstLoopDuration = firstLoopEnd - recStartTime;
-                
+                truefirstLoopDuration = firstLoopDuration;
             }
             // making temporary copies of the arrays to call the loop
 
@@ -286,12 +287,12 @@ public class RecordButton : MonoBehaviour
 
             // the first loop won't need delay before it start looping,
             // but every other loop after that will need to sync up with the first loop
-            if (firstTrack == false)
+            if (!firstTrack)
             {
                 //Debug.Log(t[0] - fls);
                 //Debug.Log(t[t.Count-1] - t[0]);
                 //Debug.Log((t[0] - fls) % firstLoopDuration);
-                float waitTime = (t[0] - fls) % firstLoopDuration;
+                float waitTime = (t[0] - fls) % truefirstLoopDuration;
 
                 // loops will be added once the first loop has ended. before the loop is played:
                 yield return new WaitForSeconds(waitTime);  // it waits for the end delay to pass
@@ -308,10 +309,11 @@ public class RecordButton : MonoBehaviour
                 else if (currNote[2] == 2) buttonIndex[currNote[0]].onClick.Invoke();
                 canInvoke = true;
             }
+            //Debug.Log(firstTrack);
             //Debug.Log("Actual Loop Length: "+(Time.time - startTime));
             //Debug.Log(t[t.Count - 1] - t[0]);
             //Debug.Log("firstLoopDuration: "+firstLoopDuration);
-            firstLoopDuration = Time.time - startTime;
+            // firstLoopDuration = Time.time - startTime;
 
             // for the first loop, addLoop is set to true to allow new loops to be added at this point
             //if (firstTrack)
