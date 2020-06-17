@@ -21,6 +21,9 @@ public class CSSOscillator : MonoBehaviour
     private MidiSequencer midiSequencer;
     private StreamSynthesizer midiStreamSynthesizer;
 
+    int[] instruments = { 0, 4, 24, 45, 53, 56, 75, 115, 116, 117 };
+    TMPro.TMP_Dropdown instrumentSelect;
+
     void Awake()
     {
         midiStreamSynthesizer = new StreamSynthesizer(44100, 2, bufferSize, 40);
@@ -30,15 +33,28 @@ public class CSSOscillator : MonoBehaviour
 
         midiSequencer = new MidiSequencer(midiStreamSynthesizer);
 
+        instrumentSelect = GameObject.Find("Instrument Select").GetComponent<TMPro.TMP_Dropdown>();
+
         //These will be fired by the midiSequencer when a song plays. Check the console for messages if you uncomment these
         //midiSequencer.NoteOnEvent += new MidiSequencer.NoteOnEventHandler (MidiNoteOnHandler);
         //midiSequencer.NoteOffEvent += new MidiSequencer.NoteOffEventHandler (MidiNoteOffHandler);			
     }
 
-    public void PlayNote(int note, int volume) {
+    void Update()
+    {
+        midiInstrument = instruments[instrumentSelect.value];
+    }
+
+    public void PlayNote(int note, int volume, int instrument = -1) {
+
+        if(instrument == -1)
+        {
+            instrument = midiInstrument;
+        }
+
         midiNote = note;
         midiNoteVolume = volume;
-        midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, midiInstrument);
+        midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, instrument);
         Recorder.recNote( note, volume, 1);
     }
 

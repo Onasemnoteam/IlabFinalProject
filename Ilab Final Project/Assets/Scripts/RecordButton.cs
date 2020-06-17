@@ -240,7 +240,7 @@ public class RecordButton : MonoBehaviour
             }
 
             // create and play a new loop
-            Coroutine c = StartCoroutine(Loop(recTimesTemp, buttonsTemp, flsStored, recStartTime));
+            Coroutine c = StartCoroutine(Loop(recTimesTemp, buttonsTemp, flsStored, recStartTime, oscillator.midiInstrument));
             loops.Add(c);
 
             // reset arrays and variables
@@ -255,9 +255,8 @@ public class RecordButton : MonoBehaviour
 
 
     // this function loops tracks given the recordings you want it to play (currently it just loops them infinitely)
-    private IEnumerator Loop(List<float> t, List<int[]> b, float fls, float rst)
+    private IEnumerator Loop(List<float> t, List<int[]> b, float fls, float rst, int instrument)
     {
-        
         
         // determine which loop was the very first one created
         // when new loops are added, they must sync up with the time they were played relative to the original loop
@@ -304,7 +303,7 @@ public class RecordButton : MonoBehaviour
                 if (i != 0) yield return new WaitForSeconds(t[i] - t[i - 1]);
                 canInvoke = false;
                 int[] currNote = b[i];
-                if (currNote[2] == 1) oscillator.PlayNote(currNote[0], currNote[1]);
+                if (currNote[2] == 1) oscillator.PlayNote(currNote[0], currNote[1], instrument);
                 else if (currNote[2] == 0) oscillator.StopNote(currNote[0]);
                 else if (currNote[2] == 2) buttonIndex[currNote[0]].onClick.Invoke();
                 canInvoke = true;
