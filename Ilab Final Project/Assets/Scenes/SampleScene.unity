@@ -1699,6 +1699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Oscillator: {fileID: 327227861}
+  Recorder: {fileID: 327227860}
   volume: 100
 --- !u!82 &327227863
 AudioSource:

@@ -55,12 +55,12 @@ public class CSSOscillator : MonoBehaviour
         midiNote = note;
         midiNoteVolume = volume;
         midiStreamSynthesizer.NoteOn(0, midiNote, midiNoteVolume, instrument);
-        Recorder.recNote( note, volume, 1);
+        
     }
 
     public void StopNote(int note) {
         midiStreamSynthesizer.NoteOff(0, note);
-        Recorder.recNote( note, 0, 0);
+        
     }
 
     private void OnAudioFilterRead(float[] data, int channels)
